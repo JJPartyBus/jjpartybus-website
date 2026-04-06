@@ -91,6 +91,14 @@
         .footer-contact { color: var(--gray); font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 0.5rem; }
         .copyright { color: #333; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; }
 
+        /* DROPDOWN */
+        .dropdown { position: relative; }
+        .dropdown-toggle { cursor: pointer; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.95); border: 1px solid #222; min-width: 200px; padding: 0.5rem 0; z-index: 200; }
+        .dropdown-menu a { display: block; padding: 0.75rem 1.5rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; opacity: 0.8; transition: all 0.2s; }
+        .dropdown-menu a:hover { opacity: 1; background: rgba(230,0,0,0.1); color: #e60000; }
+        .dropdown:hover .dropdown-menu { display: block; }
+
         /* MOBILE */
         @media (max-width: 768px) {
             nav .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(0,0,0,0.95); padding: 2rem; gap: 1.5rem; }
@@ -102,6 +110,10 @@
             .services-grid { grid-template-columns: 1fr; }
             .service-card { height: 300px; }
             .testimonials { grid-template-columns: 1fr; }
+            .dropdown-menu { position: static; transform: none; background: transparent; border: none; padding-left: 1rem; }
+            .dropdown-menu a { padding: 0.5rem 1rem; }
+            .dropdown-menu { display: none; }
+            .dropdown-menu.show { display: block; }
         }
     </style>
 </head>
@@ -109,12 +121,18 @@
 
 <!-- NAV -->
 <nav id="navbar">
-    <a href="#"><img src="assets/logo.webp" alt="JJ Party Bus"></a>
-    <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links">
-        <a href="wine-tours.html">Wine Tours</a>
-        <a href="transfers.html">Transfers</a>
-        <a href="events.html">Events</a>
+    <a href="index.html"><img src="assets/logo.webp" alt="JJ Party Bus"></a>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">☰</button>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle" onclick="toggleDropdown(event)">Services ▾</a>
+            <div class="dropdown-menu">
+                <a href="wine-tours.html">Wine Tours</a>
+                <a href="transfers.html">One Way Transfers</a>
+                <a href="events.html">Other Events</a>
+            </div>
+        </div>
         <a href="#gallery">Gallery</a>
         <a href="#reviews">Reviews</a>
         <a href="#quote" class="nav-cta">Get a Quote</a>
@@ -245,8 +263,10 @@
         <h2 class="section-title">Get a Quote</h2>
         <p class="section-sub">Lock in your date before someone else does</p>
         <div class="form-wrap">
-            <form name="quote" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
-                <input type="hidden" name="form-name" value="quote">
+            <form name="quote" action="https://formsubmit.co/contact@jjpartybuscharters.com" method="POST">
+                <input type="hidden" name="_subject" value="New JJ Party Bus Enquiry">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://jjpartybuscharters.com">
                 <input type="text" name="name" placeholder="Your Name" required>
                 <input type="email" name="email" placeholder="Email" required>
                 <input type="tel" name="phone" placeholder="Phone Number">
@@ -281,17 +301,19 @@
 </footer>
 
 <script>
-// Navbar scroll effect
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+}
+function toggleDropdown(e) {
+    e.preventDefault();
+    e.target.parentElement.querySelector('.dropdown-menu').classList.toggle('show');
+}
+// Navbar scroll effect (keep for index.html only, other pages have solid nav)
 const nav = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 50);
-});
-
+if(nav) window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 50); });
 // Close mobile menu on link click
 document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        document.querySelector('.nav-links').classList.remove('open');
-    });
+    link.addEventListener('click', () => { document.getElementById('navLinks').classList.remove('open'); });
 });
 </script>
 

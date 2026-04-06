@@ -93,6 +93,30 @@
         .footer-contact { color: var(--gray); font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 0.5rem; }
         .copyright { color: #333; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; }
 
+        /* DROPDOWN */
+        .dropdown { position: relative; }
+        .dropdown-toggle { cursor: pointer; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.95); border: 1px solid #222; min-width: 200px; padding: 0.5rem 0; z-index: 200; }
+        .dropdown-menu a { display: block; padding: 0.75rem 1.5rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; opacity: 0.8; transition: all 0.2s; }
+        .dropdown-menu a:hover { opacity: 1; background: rgba(230,0,0,0.1); color: #e60000; }
+        .dropdown:hover .dropdown-menu { display: block; }
+
+        /* PRICING TABS */
+        .pricing-tabs { display: flex; justify-content: center; gap: 1rem; margin: 2rem 0; flex-wrap: wrap; }
+        .tab-btn { padding: 0.75rem 2rem; background: transparent; border: 2px solid #333; color: #888; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+        .tab-btn.active { border-color: #e60000; color: #fff; background: rgba(230,0,0,0.1); }
+        .tab-btn:hover { border-color: #e60000; color: #fff; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .tab-desc { text-align: center; color: #888; font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 1.5rem; }
+        .price-table-wrap { max-width: 500px; margin: 0 auto; }
+        .price-table { width: 100%; border-collapse: collapse; }
+        .price-table thead th { background: #e60000; color: #fff; padding: 1rem; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; }
+        .price-table tbody td { padding: 0.75rem 1rem; text-align: center; border-bottom: 1px solid #1a1a1a; font-size: 1rem; }
+        .price-table tbody tr:nth-child(even) { background: #0d0d0d; }
+        .price-table tbody tr:nth-child(odd) { background: #111; }
+        .price-table tbody tr:hover { background: rgba(230,0,0,0.05); }
+
         /* MOBILE */
         @media (max-width: 768px) {
             nav .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(0,0,0,0.95); padding: 2rem; gap: 1.5rem; }
@@ -103,22 +127,32 @@
             .gallery-row { grid-template-columns: 1fr; }
             .gallery-row img { height: 250px; }
             .price-details { flex-direction: column; gap: 1.5rem; }
+            .dropdown-menu { position: static; transform: none; background: transparent; border: none; padding-left: 1rem; }
+            .dropdown-menu a { padding: 0.5rem 1rem; }
+            .dropdown-menu { display: none; }
+            .dropdown-menu.show { display: block; }
         }
     </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
+<nav id="navbar">
     <a href="index.html"><img src="assets/logo.webp" alt="JJ Party Bus"></a>
-    <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links">
-        <a href="wine-tours.html" class="active">Wine Tours</a>
-        <a href="transfers.html">Transfers</a>
-        <a href="events.html">Events</a>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">☰</button>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle" onclick="toggleDropdown(event)">Services ▾</a>
+            <div class="dropdown-menu">
+                <a href="wine-tours.html" class="active">Wine Tours</a>
+                <a href="transfers.html">One Way Transfers</a>
+                <a href="events.html">Other Events</a>
+            </div>
+        </div>
         <a href="index.html#gallery">Gallery</a>
         <a href="index.html#reviews">Reviews</a>
-        <a href="#quote" class="nav-cta">Get a Quote</a>
+        <a href="index.html#quote" class="nav-cta">Get a Quote</a>
     </div>
 </nav>
 
@@ -132,25 +166,101 @@
 </section>
 
 <!-- PRICING -->
-<section class="price-hero">
-    <p class="price-label">Starting From</p>
-    <p class="price-big">$156</p>
-    <p class="price-label">Per Person</p>
-    <div class="price-details">
-        <div class="price-detail">
-            <strong>32</strong>
-            <span>Max Guests</span>
+<section class="price-hero" id="pricing">
+    <div class="container">
+        <p class="price-label">Winery Tours Starting From</p>
+        <p class="price-big">$113</p>
+        <p class="price-label">Per Person</p>
+        
+        <div class="pricing-tabs">
+            <button class="tab-btn active" onclick="showTab(0)">Full Package</button>
+            <button class="tab-btn" onclick="showTab(1)">No Lunch</button>
+            <button class="tab-btn" onclick="showTab(2)">No Last Tasting</button>
         </div>
-        <div class="price-detail">
-            <strong>BYO</strong>
-            <span>Alcohol on Board</span>
+
+        <div class="tab-content active" id="tab0">
+            <p class="tab-desc">Tastings + Lunch + Tastings (3 stops)</p>
+            <div class="price-table-wrap">
+                <table class="price-table">
+                    <thead><tr><th>Guests</th><th>Per Person</th></tr></thead>
+                    <tbody>
+                        <tr><td>15</td><td>$242</td></tr>
+                        <tr><td>16</td><td>$230</td></tr>
+                        <tr><td>17</td><td>$220</td></tr>
+                        <tr><td>18</td><td>$211</td></tr>
+                        <tr><td>19</td><td>$202</td></tr>
+                        <tr><td>20</td><td>$195</td></tr>
+                        <tr><td>21</td><td>$188</td></tr>
+                        <tr><td>22</td><td>$182</td></tr>
+                        <tr><td>23</td><td>$177</td></tr>
+                        <tr><td>24</td><td>$172</td></tr>
+                        <tr><td>25</td><td>$167</td></tr>
+                        <tr><td>26</td><td>$163</td></tr>
+                        <tr><td>27</td><td>$159</td></tr>
+                        <tr><td>28</td><td>$155</td></tr>
+                        <tr><td>29</td><td>$152</td></tr>
+                        <tr><td>30</td><td>$148</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="price-detail">
-            <strong>6+</strong>
-            <span>Hours of Fun</span>
+
+        <div class="tab-content" id="tab1">
+            <p class="tab-desc">Tastings + Tastings (No Lunch — 2 stops)</p>
+            <div class="price-table-wrap">
+                <table class="price-table">
+                    <thead><tr><th>Guests</th><th>Per Person</th></tr></thead>
+                    <tbody>
+                        <tr><td>15</td><td>$207</td></tr>
+                        <tr><td>16</td><td>$195</td></tr>
+                        <tr><td>17</td><td>$185</td></tr>
+                        <tr><td>18</td><td>$176</td></tr>
+                        <tr><td>19</td><td>$167</td></tr>
+                        <tr><td>20</td><td>$160</td></tr>
+                        <tr><td>21</td><td>$153</td></tr>
+                        <tr><td>22</td><td>$147</td></tr>
+                        <tr><td>23</td><td>$142</td></tr>
+                        <tr><td>24</td><td>$137</td></tr>
+                        <tr><td>25</td><td>$132</td></tr>
+                        <tr><td>26</td><td>$128</td></tr>
+                        <tr><td>27</td><td>$124</td></tr>
+                        <tr><td>28</td><td>$120</td></tr>
+                        <tr><td>29</td><td>$117</td></tr>
+                        <tr><td>30</td><td>$113</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+
+        <div class="tab-content" id="tab2">
+            <p class="tab-desc">Tastings + Lunch (No Tastings at Last Stop)</p>
+            <div class="price-table-wrap">
+                <table class="price-table">
+                    <thead><tr><th>Guests</th><th>Per Person</th></tr></thead>
+                    <tbody>
+                        <tr><td>15</td><td>$232</td></tr>
+                        <tr><td>16</td><td>$220</td></tr>
+                        <tr><td>17</td><td>$210</td></tr>
+                        <tr><td>18</td><td>$201</td></tr>
+                        <tr><td>19</td><td>$192</td></tr>
+                        <tr><td>20</td><td>$185</td></tr>
+                        <tr><td>21</td><td>$178</td></tr>
+                        <tr><td>22</td><td>$172</td></tr>
+                        <tr><td>23</td><td>$167</td></tr>
+                        <tr><td>24</td><td>$162</td></tr>
+                        <tr><td>25</td><td>$157</td></tr>
+                        <tr><td>26</td><td>$153</td></tr>
+                        <tr><td>27</td><td>$149</td></tr>
+                        <tr><td>28</td><td>$145</td></tr>
+                        <tr><td>29</td><td>$142</td></tr>
+                        <tr><td>30</td><td>$138</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <a href="#quote" class="btn" style="margin-top: 2rem;">Get an Exact Quote</a>
     </div>
-    <a href="#quote" class="btn" style="margin-top: 1rem;">Get an Exact Quote</a>
 </section>
 
 <!-- HOW IT WORKS -->
@@ -250,8 +360,10 @@
         <h2 class="section-title">Book Your Wine Tour</h2>
         <p class="section-sub">Lock in your date before someone else does</p>
         <div class="form-wrap">
-            <form name="quote-wine" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
-                <input type="hidden" name="form-name" value="quote-wine">
+            <form name="quote" action="https://formsubmit.co/contact@jjpartybuscharters.com" method="POST">
+                <input type="hidden" name="_subject" value="New JJ Party Bus Enquiry">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://jjpartybuscharters.com">
                 <input type="hidden" name="event_type" value="Winery Tour">
                 <input type="text" name="name" placeholder="Your Name" required>
                 <input type="email" name="email" placeholder="Email" required>
@@ -277,11 +389,27 @@
 </footer>
 
 <script>
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+}
+function toggleDropdown(e) {
+    e.preventDefault();
+    e.target.parentElement.querySelector('.dropdown-menu').classList.toggle('show');
+}
+// Navbar scroll effect (keep for index.html only, other pages have solid nav)
+const nav = document.getElementById('navbar');
+if(nav) window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 50); });
+// Close mobile menu on link click
 document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        document.querySelector('.nav-links').classList.remove('open');
-    });
+    link.addEventListener('click', () => { document.getElementById('navLinks').classList.remove('open'); });
 });
+// Pricing tabs
+function showTab(n) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab'+n).classList.add('active');
+    document.querySelectorAll('.tab-btn')[n].classList.add('active');
+}
 </script>
 
 </body>
