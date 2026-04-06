@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JJ Party Bus | Melbourne's #1 Party Bus</title>
+    <link rel="icon" type="image/webp" href="assets/logo.webp">
+    <style>
+        :root { --red: #e60000; --black: #000; --dark: #0a0a0a; --white: #fff; --gray: #888; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--black); color: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        img { display: block; max-width: 100%; }
+        a { color: var(--white); text-decoration: none; }
+        
+        /* NAV */
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(rgba(0,0,0,0.8), transparent); transition: background 0.3s; }
+        nav.scrolled { background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); }
+        nav img { height: 40px; }
+        nav .nav-links { display: flex; gap: 2rem; align-items: center; }
+        nav .nav-links a { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; opacity: 0.8; transition: opacity 0.2s; }
+        nav .nav-links a:hover { opacity: 1; }
+        .nav-cta { background: var(--red); padding: 0.6rem 1.5rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; transition: transform 0.2s, background 0.2s; }
+        .nav-cta:hover { transform: scale(1.05); background: #ff1a1a; }
+        .menu-toggle { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+        /* HERO */
+        .hero { height: 100vh; background: url('assets/IMG_0983.jpeg') center/cover no-repeat; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.9) 100%); }
+        .hero-content { position: relative; z-index: 1; max-width: 900px; }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 900; text-transform: uppercase; letter-spacing: -2px; line-height: 0.95; margin-bottom: 1rem; }
+        .hero h1 span { color: var(--red); }
+        .hero-sub { font-size: clamp(0.9rem, 2vw, 1.2rem); letter-spacing: 4px; text-transform: uppercase; opacity: 0.7; margin-bottom: 2.5rem; }
+        .btn { display: inline-block; padding: 1rem 3rem; background: var(--red); color: var(--white); font-weight: 800; font-size: 1rem; text-transform: uppercase; letter-spacing: 3px; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; border: none; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(230,0,0,0.3); }
+
+        /* SECTIONS */
+        section { padding: 6rem 2rem; }
+        .section-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; text-transform: uppercase; text-align: center; letter-spacing: -1px; margin-bottom: 1rem; }
+        .section-sub { text-align: center; color: var(--gray); font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* EXPERIENCE */
+        .experience { background: var(--dark); }
+        .features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-bottom: 3rem; }
+        .feature { text-align: center; padding: 2rem 1rem; }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .feature h3 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+        .wide-img { width: 100%; max-height: 500px; object-fit: cover; }
+
+        /* GALLERY */
+        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+        .gallery-grid img { width: 100%; height: 280px; object-fit: cover; transition: transform 0.4s; cursor: pointer; }
+        .gallery-grid img:hover { transform: scale(1.05); z-index: 1; }
+
+        /* SERVICES */
+        .services { background: var(--dark); }
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+        .service-card { position: relative; height: 400px; overflow: hidden; display: flex; align-items: flex-end; }
+        .service-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .service-card:hover img { transform: scale(1.1); }
+        .service-card .overlay { position: relative; z-index: 1; width: 100%; padding: 2rem; background: linear-gradient(transparent, rgba(0,0,0,0.9)); }
+        .service-card h3 { font-size: 1.3rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; }
+        .service-card p { font-size: 0.85rem; color: var(--gray); margin-top: 0.5rem; }
+        .price-callout { text-align: center; font-size: clamp(1rem, 3vw, 1.5rem); font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: var(--red); padding: 2rem; border: 2px solid var(--red); max-width: 600px; margin: 0 auto; }
+
+        /* SOCIAL PROOF */
+        .testimonials { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 3rem; }
+        .testimonial { padding: 2rem; border: 1px solid #222; text-align: center; }
+        .testimonial .quote { font-size: 1.1rem; font-style: italic; margin-bottom: 1.5rem; line-height: 1.8; }
+        .testimonial .author { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--red); font-weight: 700; }
+        .tiktok-cta { text-align: center; margin-top: 2rem; }
+        .tiktok-cta a { color: var(--red); font-weight: 700; font-size: 1rem; letter-spacing: 1px; }
+
+        /* QUOTE FORM */
+        .quote-section { background: var(--dark); }
+        .form-wrap { max-width: 600px; margin: 0 auto; }
+        .form-wrap input, .form-wrap select, .form-wrap textarea { width: 100%; padding: 1rem; margin-bottom: 1rem; background: #111; border: 1px solid #222; color: var(--white); font-size: 1rem; font-family: inherit; outline: none; transition: border-color 0.2s; -webkit-appearance: none; border-radius: 0; }
+        .form-wrap input:focus, .form-wrap select:focus, .form-wrap textarea:focus { border-color: var(--red); }
+        .form-wrap select { cursor: pointer; }
+        .form-wrap select option { background: #111; }
+        .form-wrap textarea { min-height: 120px; resize: vertical; }
+        .form-wrap .btn { width: 100%; font-size: 1.1rem; padding: 1.2rem; }
+
+        /* FOOTER */
+        footer { padding: 3rem 2rem; border-top: 1px solid #111; text-align: center; }
+        footer img { height: 30px; margin: 0 auto 1.5rem; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; }
+        .footer-links a { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gray); transition: color 0.2s; }
+        .footer-links a:hover { color: var(--white); }
+        .footer-contact { color: var(--gray); font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 0.5rem; }
+        .copyright { color: #333; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            nav .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(0,0,0,0.95); padding: 2rem; gap: 1.5rem; }
+            nav .nav-links.open { display: flex; }
+            .menu-toggle { display: block; }
+            .features { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-grid img { height: 200px; }
+            .services-grid { grid-template-columns: 1fr; }
+            .service-card { height: 300px; }
+            .testimonials { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+    <a href="#"><img src="assets/logo.webp" alt="JJ Party Bus"></a>
+    <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+    <div class="nav-links">
+        <a href="wine-tours.html">Wine Tours</a>
+        <a href="transfers.html">Transfers</a>
+        <a href="events.html">Events</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#quote" class="nav-cta">Get a Quote</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>MELBOURNE'S <span>#1</span> PARTY BUS</h1>
+        <p class="hero-sub">32 Seats · BYO · Premium Sound · Smoke Machine</p>
+        <a href="#quote" class="btn">Get a Quote</a>
+    </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+    <div class="container">
+        <h2 class="section-title">The Experience</h2>
+        <p class="section-sub">Everything you need for the perfect night</p>
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🔊</div>
+                <h3>Premium Sound System</h3>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💨</div>
+                <h3>Smoke Machine & LEDs</h3>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🍾</div>
+                <h3>BYO Alcohol</h3>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🚌</div>
+                <h3>32 Seats</h3>
+            </div>
+        </div>
+        <img src="assets/IMG_0982.jpeg" alt="JJ Party Bus interior — black leather seats, red neon lighting, chrome pole" class="wide-img" loading="lazy">
+    </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+    <div class="container">
+        <h2 class="section-title">See the Vibe</h2>
+        <p class="section-sub">Real nights. Real people. Real party.</p>
+    </div>
+    <div class="gallery-grid">
+        <img src="assets/photo-03.jpg" alt="Party on JJ Party Bus" loading="lazy">
+        <img src="assets/IMG_0981.jpeg" alt="Smoke machine and neon lights inside bus" loading="lazy">
+        <img src="assets/photo-08.jpg" alt="Hens night group on party bus" loading="lazy">
+        <img src="assets/photo-06.jpg" alt="Group celebrating on bus" loading="lazy">
+        <img src="assets/photo-11.jpg" alt="Interior neon ambiance" loading="lazy">
+        <img src="assets/photo-14.jpg" alt="Party bus event" loading="lazy">
+        <img src="assets/photo-09.jpg" alt="Night out on the bus" loading="lazy">
+        <img src="assets/photo-15.jpg" alt="Group photo on party bus" loading="lazy">
+        <img src="assets/photo-04.jpg" alt="Celebration on JJ Party Bus" loading="lazy">
+        <img src="assets/photo-13.jpg" alt="Party bus fun" loading="lazy">
+        <img src="assets/photo-07.jpg" alt="Event on the bus" loading="lazy">
+        <img src="assets/photo-16.jpg" alt="JJ Party Bus group" loading="lazy">
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+    <div class="container">
+        <h2 class="section-title">What We Do</h2>
+        <p class="section-sub">Your ride. Your rules.</p>
+        <div class="services-grid">
+            <a href="wine-tours.html" class="service-card">
+                <img src="assets/photo-06.jpg" alt="Winery tour group" loading="lazy">
+                <div class="overlay">
+                    <h3>Winery & Brewery Tours</h3>
+                    <p>Yarra Valley's best wineries and breweries. All-day experiences your crew won't forget.</p>
+                </div>
+            </a>
+            <a href="transfers.html" class="service-card">
+                <img src="assets/IMG_0983.jpeg" alt="One way transfer" loading="lazy">
+                <div class="overlay">
+                    <h3>One Way Transfers</h3>
+                    <p>Point A to Point B. The party starts the moment you step on.</p>
+                </div>
+            </a>
+            <a href="events.html" class="service-card">
+                <img src="assets/photo-08.jpg" alt="Private event hens night" loading="lazy">
+                <div class="overlay">
+                    <h3>Events & Private Hire</h3>
+                    <p>Birthdays, hens, bucks, pub crawls, school balls, corporate. Whatever the occasion.</p>
+                </div>
+            </a>
+        </div>
+        <div class="price-callout">
+            Winery Tours Starting at $156 Per Person
+        </div>
+    </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section id="reviews">
+    <div class="container">
+        <h2 class="section-title">Don't Take Our Word for It</h2>
+        <p class="section-sub">Straight from our guests</p>
+        <div class="testimonials">
+            <div class="testimonial">
+                <p class="quote">&ldquo;Honestly the best night we've ever had. The bus was unreal — smoke machine going, music pumping, everyone was dancing before we even got to the first bar.&rdquo;</p>
+                <p class="author">Sarah &mdash; Hens Night</p>
+            </div>
+            <div class="testimonial">
+                <p class="quote">&ldquo;Booked it for my 30th and it exceeded every expectation. The boys are still talking about it weeks later. Worth every cent.&rdquo;</p>
+                <p class="author">Mike &mdash; 30th Birthday</p>
+            </div>
+            <div class="testimonial">
+                <p class="quote">&ldquo;We did the Yarra Valley winery tour and it was so well run. BYO on the bus between stops was a game changer. Already planning the next one.&rdquo;</p>
+                <p class="author">Jess &mdash; Winery Tour</p>
+            </div>
+        </div>
+        <div class="tiktok-cta">
+            <p style="color: var(--gray); margin-bottom: 0.5rem; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;">1,500+ followers and counting</p>
+            <a href="https://tiktok.com/@jjpartybus" target="_blank" rel="noopener">Follow us on TikTok &rarr;</a>
+        </div>
+    </div>
+</section>
+
+<!-- QUOTE FORM -->
+<section class="quote-section" id="quote">
+    <div class="container">
+        <h2 class="section-title">Get a Quote</h2>
+        <p class="section-sub">Lock in your date before someone else does</p>
+        <div class="form-wrap">
+            <form name="quote" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+                <input type="hidden" name="form-name" value="quote">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="tel" name="phone" placeholder="Phone Number">
+                <select name="event_type" required>
+                    <option value="" disabled selected>Event Type</option>
+                    <option value="Winery Tour">Winery Tour</option>
+                    <option value="Pub Crawl">Pub Crawl</option>
+                    <option value="Birthday">Birthday</option>
+                    <option value="Hens/Bucks">Hens / Bucks</option>
+                    <option value="School Ball">School Ball</option>
+                    <option value="Corporate">Corporate</option>
+                    <option value="Other">Other</option>
+                </select>
+                <input type="date" name="date" required>
+                <input type="number" name="guests" placeholder="Number of Guests" min="1" max="32" required>
+                <textarea name="message" placeholder="Tell us about your event — pickup location, times, any special requests..."></textarea>
+                <button type="submit" class="btn">Send Enquiry</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <img src="assets/logo.webp" alt="JJ Party Bus" loading="lazy">
+    <div class="footer-links">
+        <a href="https://tiktok.com/@jjpartybus" target="_blank" rel="noopener">TikTok</a>
+        <a href="https://instagram.com/jjpartybus" target="_blank" rel="noopener">Instagram</a>
+    </div>
+    <p class="footer-contact">0409 703 897 &nbsp;|&nbsp; contact@jjpartybuscharters.com</p>
+    <p class="copyright">&copy; 2026 JJ Party Bus Charters Pty Ltd</p>
+</footer>
+
+<script>
+// Navbar scroll effect
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Close mobile menu on link click
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.remove('open');
+    });
+});
+</script>
+
+</body>
+</html>

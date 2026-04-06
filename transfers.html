@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Way Transfers | JJ Party Bus Melbourne</title>
+    <meta name="description" content="Party bus transfers across Melbourne. Airport, venue, CBD — anywhere you need. 32 seats, BYO, premium sound system on board.">
+    <link rel="icon" type="image/webp" href="assets/logo.webp">
+    <style>
+        :root { --red: #e60000; --black: #000; --dark: #0a0a0a; --white: #fff; --gray: #888; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--black); color: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        img { display: block; max-width: 100%; }
+        a { color: var(--white); text-decoration: none; }
+
+        /* NAV */
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); }
+        nav img { height: 40px; }
+        nav .nav-links { display: flex; gap: 2rem; align-items: center; }
+        nav .nav-links a { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; opacity: 0.8; transition: opacity 0.2s; }
+        nav .nav-links a:hover { opacity: 1; }
+        nav .nav-links a.active { opacity: 1; color: var(--red); }
+        .nav-cta { background: var(--red); padding: 0.6rem 1.5rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; transition: transform 0.2s, background 0.2s; }
+        .nav-cta:hover { transform: scale(1.05); background: #ff1a1a; }
+        .menu-toggle { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+        /* SHARED */
+        .btn { display: inline-block; padding: 1rem 3rem; background: var(--red); color: var(--white); font-weight: 800; font-size: 1rem; text-transform: uppercase; letter-spacing: 3px; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; border: none; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(230,0,0,0.3); }
+        section { padding: 6rem 2rem; }
+        .section-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; text-transform: uppercase; text-align: center; letter-spacing: -1px; margin-bottom: 1rem; }
+        .section-sub { text-align: center; color: var(--gray); font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* PAGE HERO */
+        .page-hero { height: 70vh; background: url('assets/IMG_0983.jpeg') center/cover no-repeat; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem; }
+        .page-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0.95) 100%); }
+        .page-hero-content { position: relative; z-index: 1; max-width: 800px; }
+        .page-hero h1 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900; text-transform: uppercase; letter-spacing: -2px; line-height: 0.95; margin-bottom: 1rem; }
+        .page-hero h1 span { color: var(--red); }
+        .page-hero p { font-size: clamp(0.9rem, 2vw, 1.2rem); letter-spacing: 3px; text-transform: uppercase; opacity: 0.7; margin-bottom: 2rem; }
+
+        /* USE CASES */
+        .use-cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+        .use-case { position: relative; height: 350px; overflow: hidden; display: flex; align-items: flex-end; }
+        .use-case img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .use-case:hover img { transform: scale(1.1); }
+        .use-case .overlay { position: relative; z-index: 1; width: 100%; padding: 2rem; background: linear-gradient(transparent, rgba(0,0,0,0.9)); }
+        .use-case h3 { font-size: 1.3rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; }
+        .use-case p { font-size: 0.85rem; color: var(--gray); margin-top: 0.5rem; }
+
+        /* FEATURES */
+        .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+        .feat { text-align: center; padding: 2rem; }
+        .feat-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .feat h3 { font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; margin-bottom: 0.75rem; }
+        .feat p { color: var(--gray); font-size: 0.95rem; line-height: 1.7; }
+
+        /* HOW IT WORKS */
+        .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+        .step { text-align: center; padding: 2rem; }
+        .step-num { font-size: 3rem; font-weight: 900; color: var(--red); margin-bottom: 1rem; }
+        .step h3 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; margin-bottom: 0.75rem; }
+        .step p { color: var(--gray); font-size: 0.95rem; line-height: 1.7; }
+
+        /* WIDE IMAGE */
+        .wide-img { width: 100%; max-height: 400px; object-fit: cover; margin: 3rem 0; }
+
+        /* QUOTE FORM */
+        .quote-section { background: var(--dark); }
+        .form-wrap { max-width: 600px; margin: 0 auto; }
+        .form-wrap input, .form-wrap select, .form-wrap textarea { width: 100%; padding: 1rem; margin-bottom: 1rem; background: #111; border: 1px solid #222; color: var(--white); font-size: 1rem; font-family: inherit; outline: none; transition: border-color 0.2s; -webkit-appearance: none; border-radius: 0; }
+        .form-wrap input:focus, .form-wrap select:focus, .form-wrap textarea:focus { border-color: var(--red); }
+        .form-wrap select { cursor: pointer; }
+        .form-wrap select option { background: #111; }
+        .form-wrap textarea { min-height: 120px; resize: vertical; }
+        .form-wrap .btn { width: 100%; font-size: 1.1rem; padding: 1.2rem; }
+
+        /* FOOTER */
+        footer { padding: 3rem 2rem; border-top: 1px solid #111; text-align: center; }
+        footer img { height: 30px; margin: 0 auto 1.5rem; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; }
+        .footer-links a { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gray); transition: color 0.2s; }
+        .footer-links a:hover { color: var(--white); }
+        .footer-contact { color: var(--gray); font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 0.5rem; }
+        .copyright { color: #333; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            nav .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(0,0,0,0.95); padding: 2rem; gap: 1.5rem; }
+            nav .nav-links.open { display: flex; }
+            .menu-toggle { display: block; }
+            .use-cases { grid-template-columns: 1fr; }
+            .use-case { height: 280px; }
+            .features { grid-template-columns: 1fr; }
+            .steps { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="index.html"><img src="assets/logo.webp" alt="JJ Party Bus"></a>
+    <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+    <div class="nav-links">
+        <a href="wine-tours.html">Wine Tours</a>
+        <a href="transfers.html" class="active">Transfers</a>
+        <a href="events.html">Events</a>
+        <a href="index.html#gallery">Gallery</a>
+        <a href="index.html#reviews">Reviews</a>
+        <a href="#quote" class="nav-cta">Get a Quote</a>
+    </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+    <div class="page-hero-content">
+        <h1>ONE WAY <span>TRANSFERS</span></h1>
+        <p>Point A to Point B · The Party Starts on the Bus</p>
+        <a href="#quote" class="btn">Get a Quote</a>
+    </div>
+</section>
+
+<!-- USE CASES -->
+<section>
+    <div class="container">
+        <h2 class="section-title">Where Are You Headed?</h2>
+        <p class="section-sub">We'll get you there in style</p>
+        <div class="use-cases">
+            <div class="use-case">
+                <img src="assets/photo-03.jpg" alt="Venue transfer" loading="lazy">
+                <div class="overlay">
+                    <h3>Venue Transfers</h3>
+                    <p>Home to the venue, venue to the afterparty. No taxis, no Ubers — just the whole crew together.</p>
+                </div>
+            </div>
+            <div class="use-case">
+                <img src="assets/photo-04.jpg" alt="Festival transfer" loading="lazy">
+                <div class="overlay">
+                    <h3>Festival & Event Drops</h3>
+                    <p>Festivals, concerts, sporting events. Get there hyped and ready to go.</p>
+                </div>
+            </div>
+            <div class="use-case">
+                <img src="assets/photo-11.jpg" alt="Night out transfer" loading="lazy">
+                <div class="overlay">
+                    <h3>Night Out Kickoff</h3>
+                    <p>Start the night right. Pickup at yours, drop at the first spot. The pregame on wheels.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WHY A TRANSFER -->
+<section style="background: var(--dark);">
+    <div class="container">
+        <h2 class="section-title">Why Book a Transfer?</h2>
+        <p class="section-sub">More than just a ride</p>
+        <div class="features">
+            <div class="feat">
+                <div class="feat-icon">👥</div>
+                <h3>Keep the Group Together</h3>
+                <p>No splitting into 6 Ubers. Everyone travels together — the energy stays high from the moment you step on.</p>
+            </div>
+            <div class="feat">
+                <div class="feat-icon">🎵</div>
+                <h3>The Party Starts Early</h3>
+                <p>Premium sound, smoke machine, LED lights, BYO drinks. The bus IS the first venue.</p>
+            </div>
+            <div class="feat">
+                <div class="feat-icon">💰</div>
+                <h3>Cheaper Than You Think</h3>
+                <p>Split it across the group and it costs less than individual rideshares — with 100x the experience.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- INTERIOR SHOT -->
+<section style="padding: 0;">
+    <img src="assets/IMG_0982.jpeg" alt="JJ Party Bus interior" class="wide-img" loading="lazy">
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+    <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-sub">Simple as</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">01</div>
+                <h3>Tell Us the Details</h3>
+                <p>Pickup address, drop-off address, date, time, group size. That's all we need to quote you.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">02</div>
+                <h3>Lock in Your Date</h3>
+                <p>We only have one bus — dates go fast. A small deposit secures your booking.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">03</div>
+                <h3>We Show Up</h3>
+                <p>The bus arrives, the doors open, the music's already going. Load up and enjoy the ride.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- QUOTE FORM -->
+<section class="quote-section" id="quote">
+    <div class="container">
+        <h2 class="section-title">Get a Transfer Quote</h2>
+        <p class="section-sub">Tell us where you're going</p>
+        <div class="form-wrap">
+            <form name="quote-transfer" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+                <input type="hidden" name="form-name" value="quote-transfer">
+                <input type="hidden" name="event_type" value="One Way Transfer">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="tel" name="phone" placeholder="Phone Number">
+                <input type="date" name="date" required>
+                <input type="number" name="guests" placeholder="Number of Guests" min="1" max="32" required>
+                <input type="text" name="pickup" placeholder="Pickup Address">
+                <input type="text" name="dropoff" placeholder="Drop-off Address">
+                <input type="text" name="time" placeholder="Pickup Time (e.g. 7:00 PM)">
+                <textarea name="message" placeholder="Anything else we should know?"></textarea>
+                <button type="submit" class="btn">Send Enquiry</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <img src="assets/logo.webp" alt="JJ Party Bus" loading="lazy">
+    <div class="footer-links">
+        <a href="https://tiktok.com/@jjpartybus" target="_blank" rel="noopener">TikTok</a>
+        <a href="https://instagram.com/jjpartybus" target="_blank" rel="noopener">Instagram</a>
+    </div>
+    <p class="footer-contact">0409 703 897 &nbsp;|&nbsp; contact@jjpartybuscharters.com</p>
+    <p class="copyright">&copy; 2026 JJ Party Bus Charters Pty Ltd</p>
+</footer>
+
+<script>
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.remove('open');
+    });
+});
+</script>
+
+</body>
+</html>
